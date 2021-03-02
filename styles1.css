@@ -3,28 +3,11 @@
 }
 
 :root {
+  --level: '1';
   --speedX: 4s;
   --speedY: 7.4s;
   --scale: 1;
 }
-
-.level-2 .bird {--speedX: 3s; --speedY: 6.4s}
-.level-3 .bird {--speedX: 2.5s; --speedY: 5.4s}
-.level-4 .bird {--speedX: 2s; --speedY: 5s}
-.level-5 .bird {--speedX: 1.5s; --speedY: 4.4s}
-.level-6 .bird {--speedX: 1s; --speedY: 4s}
-
-.level-7 .bird {--speedX: 1s; --speedY: 4s; --scale: 0.8}
-.level-8 .bird {--speedX: 1s; --speedY: 4s; --scale: 0.7}
-.level-9 .bird {--speedX: 1s; --speedY: 4s; --scale: 0.6}
-.level-10 .bird {--speedX: 1s; --speedY: 4s; --scale: 0.5}
-
-.level-11 .bird {--speedX: 0.8s; --speedY: 3.5s; --scale: 0.5}
-.level-12 .bird {--speedX: 0.8s; --speedY: 3.5s; --scale: 0.4}
-.level-13 .bird {--speedX: 0.7s; --speedY: 3.4s; --scale: 0.5}
-.level-14 .bird {--speedX: 0.6s; --speedY: 3.3s; --scale: 0.5}
-.level-15 .bird {--speedX: 0.6s; --speedY: 3.3s; --scale: 0.45}
-.level-16 .bird {--speedX: 0.6s; --speedY: 3.3s; --scale: 0.4}
 
 body {
   position: relative;
@@ -52,7 +35,8 @@ body {
   background: transparent;
 }
 
-#overlay:focus {
+#overlay:active {
+  --scale: 1;
   background-color: #f8686878;
 }
 
@@ -64,21 +48,20 @@ body {
   bottom: 0;
   background-repeat: no-repeat;
   background-size: cover;
-  display: none; /* Hide all levels */
-}
-
-.level-1 {
-  display: block; /* Initial state */
+  display: block; /* Hide all levels */
 }
 
 .level__info {
+  display: flex;
+  flex-wrap: nowrap;
   background-color: rgba(255,255,255, 0.6);
   display: inline-block;
   padding: 10px;
 }
 
-input[type="radio"]:checked + .level {
-  display: block;
+.level__info::after {
+  content: var(--level);
+  display: inline-block;
 }
 
 @keyframes moveX {
@@ -102,7 +85,7 @@ input[type="radio"]:checked + .level {
 }
 
 .bird {
-  z-index: 2;
+  z-index: 3;
   position: absolute;
   width: 100px;
   height: 100px;
@@ -110,9 +93,11 @@ input[type="radio"]:checked + .level {
   transform: scale(var(--scale));
   animation: moveX var(--speedX) linear 0s infinite alternate, moveY var(--speedY) linear 0s infinite alternate;
   transition: all 0.3s ease-in-out;
+  pointer-events: none;
 }
 
-.bird:hover {
+.bird:active {
+  --scale: calc(var(--scale) - 0.5);
   opacity: 0.7;
 }
 
@@ -120,3 +105,4 @@ input[type="radio"]:checked + .level {
   width: 100%;
   height: 100%;
 }
+
